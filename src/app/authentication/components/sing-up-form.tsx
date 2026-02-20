@@ -8,6 +8,7 @@ import { router } from "better-auth/api";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const registerSchema = z.object({
@@ -42,8 +43,12 @@ const SingUpForm = () =>{
       },
       {
         onSuccess: () =>{
+          toast.success("Cadastro realizado")
           router.push("/dashboard");
-        }
+        },
+        onError: () => {
+          toast.error("E-mail ou senha inválidos")
+        },
       })
     }
     return (
