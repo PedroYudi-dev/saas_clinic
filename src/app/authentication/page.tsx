@@ -1,31 +1,22 @@
 'use client'
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import React from 'react'
 import SingUpForm from './components/sing-up-form';
+import LoginForm from './components/login-form';
 
 const AuthenticationPage = () => {
   return (
     <div className="flex h-screen w-screen items-center justify-center">
-      <Tabs defaultValue="login" className="w-[400px]">
+      <Tabs defaultValue="login" className="w-100">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="register">Criar Conta</TabsTrigger>
         </TabsList>
         <TabsContent value="login">
-          <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-              <CardDescription>Faça login para continuar</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2"></CardContent>
-          </Card>
+          <LoginForm/>
         </TabsContent>
         <TabsContent value="register">
-          <SingUpForm/>
+          <SingUpForm />
         </TabsContent>
       </Tabs>
     </div>
