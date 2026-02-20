@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { router } from "better-auth/api";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
@@ -20,6 +24,7 @@ const registerSchema = z.object({
 });
 
 const SingUpForm = () =>{
+    const router = useRouter() 
     const form = useForm<z.infer<typeof registerSchema>>({
       resolver: zodResolver(registerSchema),
       defaultValues: {
@@ -29,8 +34,17 @@ const SingUpForm = () =>{
       },
     });
 
-    function onSubmit(data: z.infer<typeof registerSchema>) {
-      console.log(data);
+    async function onSubmit(data: z.infer<typeof registerSchema>) {
+      await authClient.signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      },
+      {
+        onSuccess: () =>{
+          router.push("/dashboard");
+        }
+      })
     }
     return (
       <Card>
@@ -86,8 +100,8 @@ const SingUpForm = () =>{
               />
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">
-                Criar conta
+              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? ( <Loader2 className="mr-2 h-4 w-4 animate-spin "/>) : ("Criar conta")}
               </Button>
             </CardFooter>
           </form>
