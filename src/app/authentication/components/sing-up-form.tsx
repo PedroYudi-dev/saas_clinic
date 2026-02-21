@@ -46,8 +46,12 @@ const SingUpForm = () =>{
           toast.success("Cadastro realizado")
           router.push("/dashboard");
         },
-        onError: () => {
-          toast.error("E-mail ou senha inválidos")
+        onError: (ctx) => {
+          if (ctx.error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {
+            toast.error("E-mail já cadatrado");
+            return;
+          }
+        toast.error("Erro ao criar a conta");
         },
       })
     }
